@@ -38,8 +38,9 @@
 
     <table class="table">
       <% for(var i in data) { %>
+        <!-- data_itemを読み込んで、項目を表示する -->
         <%- include('data_item', {val:data[i]}) %>
-          <% } %>
+      <% } %>
     </table>
   </div>
 </body>
