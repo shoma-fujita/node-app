@@ -7,9 +7,12 @@ const qs = require('querystring');
 const index_page = fs.readFileSync('./index.ejs', 'utf8');
 const login_page = fs.readFileSync('./login.ejs', 'utf8');
 
-const max_num = 10; // 最大保管数
-const filename = 'mydata.txt'; // データファイル名
-var message_data; // データ
+// 最大保管数
+const max_num = 10;
+// データファイル名
+const filename = 'mydata.txt';
+// メッセージ格納用のデータ
+var message_data;
 readFromFile(filename);
 
 var server = http.createServer(getFromClient);
@@ -25,11 +28,13 @@ function getFromClient(request, response) {
   var url_parts = url.parse(request.url, true);
   switch (url_parts.pathname) {
 
-    case '/': // トップページ（メッセージボード）
+    // トップページ（メッセージボード）
+    case '/':
       response_index(request, response);
       break;
 
-    case '/login': // ログインページ
+      // ログインページ
+    case '/login':
       response_login(request, response);
       break;
 
@@ -87,6 +92,7 @@ function write_index(request, response) {
 // テキストファイルをロード
 function readFromFile(fname) {
   fs.readFile(fname, 'utf8', (err, data) => {
+    // 各行ごとにテキストを配列に格納する
     message_data = data.split('\n');
   })
 }
@@ -94,10 +100,13 @@ function readFromFile(fname) {
 // データを更新
 function addToData(id, msg, fname, request) {
   var obj = { 'id': id, 'msg': msg };
+  // オブジェクトをテキストに変換する
   var obj_str = JSON.stringify(obj);
   console.log('add data: ' + obj_str);
+  // message_data配列の最初に格納zする
   message_data.unshift(obj_str);
   if (message_data.length > max_num) {
+    // message_data配列の最後の値を削除する
     message_data.pop();
   }
   saveToFile(fname);
@@ -105,8 +114,12 @@ function addToData(id, msg, fname, request) {
 
 // データを保存
 function saveToFile(fname) {
+  // 配列を1つのテキストに変換する
   var data_str = message_data.join('\n');
+  // データを保存する用のファイルに保存する
   fs.writeFile(fname, data_str, (err) => {
-    if (err) { throw err; }
+    if (err) {
+      throw err;
+    }
   });
 }
