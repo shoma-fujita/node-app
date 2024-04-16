@@ -11,7 +11,7 @@ const login_page = fs.readFileSync('./login.ejs', 'utf8');
 const max_num = 10;
 // データファイル名
 const filename = 'mydata.txt';
-// メッセージ格納用のデータ
+// メッセージ格納用のデータ変数
 var message_data;
 readFromFile(filename);
 
